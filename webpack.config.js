@@ -50,17 +50,12 @@ module.exports = {
     new HTMLWebpackPlugin({
       template: 'index.html',
     }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, 'src/favicon.ico'),
-          to: path.resolve(__dirname, 'dist'),
-        },
+    new CopyPlugin(
+      [
+        {from: 'src/*.png', to: 'dest/'},
       ],
-      options: {
-        concurrency: 100,
-      },
-    }),
+      {concurrency: 100}
+    ),
     new MiniCssExtractPlugin({
       filename: fileName('css'),
     }),
