@@ -8,7 +8,7 @@ export class ExcelComponent extends DomListener {
   }
 
   init() {
-    this.initDomListeners()
+    this.initDOMListeners()
   }
 
   toHTML() {
@@ -16,6 +16,6 @@ export class ExcelComponent extends DomListener {
   }
 
   destroy() {
-    this.removeDomListeners()
+    this.removeDOMListeners()
   }
 }

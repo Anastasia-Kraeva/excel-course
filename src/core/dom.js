@@ -1,4 +1,3 @@
-// утилита упрощающая взаимодействие с DOM-деревом
 class Dom {
   constructor(selector) {
     this.$el = typeof selector === 'string'
@@ -28,15 +27,13 @@ class Dom {
   }
 
   append(node) {
-    //  node - may be of instans of Dom -> has atribute $el containing native node (part of file html -> Element)
     if (node instanceof Dom) {
       node = node.$el
     }
-    // its cool that he dont create if inside if (like in my idea)
+
     if (Element.prototype.append) {
       this.$el.append(node)
     } else {
-      // устаревшая версия
       this.$el.appendChild(node)
     }
 
