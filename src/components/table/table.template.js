@@ -7,18 +7,18 @@ const toChar = (_, i) => {
   return String.fromCharCode(CODES.A + i)
 }
 
-const toColumn = (col) => {
+const toColumn = (col, i) => {
   return (`
-    <div class="column">
+    <div class="column" data-type="resizable" data-col="${i + 1}">
       ${col}
       <div class="col-resize" data-resize="col"></div>
     </div>
   `)
 }
 
-const toCell = (content) => {
+const toCell = (content, i) => {
   return (`
-    <div class="cell" contenteditable>${content}</div>
+    <div class="cell" contenteditable data-col="${i + 1}">${content}</div>
   `)
 }
 
@@ -26,7 +26,7 @@ const createRow = (i, cells) => {
   const resize = i ? '<div class="row-resize" data-resize="row"></div>' : ''
 
   return (`
-    <div class="row">
+    <div class="row" data-type="resizable">
       <div class="row-info">
         ${i ? i : ''}
         ${resize}
