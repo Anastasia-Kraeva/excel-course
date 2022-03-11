@@ -22,9 +22,18 @@ export class Table extends ExcelComponent {
       const coords = $parent.getCoords()
 
       document.onmousemove = e => {
-        const delta = e.pageX - coords.right
-        const value = coords.width + delta
-        $parent.$el.style.width = value + 'px'
+        if ($resizer.data.resize === 'col') {
+          const delta = e.pageX - coords.right
+          const value = Math.floor(coords.width + delta)
+          const cells = this.$root.findAll(`[data-col="${$parent.data.col}"]`)
+
+          cells.forEach(element => element.style.width = value + 'px')
+        } else {
+          // coords.bottom - нижняя граница строчки а не отсчитывание координат от нижней границы экрана
+          const delta = Math.floor(e.pageY - coords.bottom)
+          const value = Math.floor(coords.height + delta)
+          $parent.css({height: value + 'px'})
+        }
       }
 
       document.onmouseup = () => {
