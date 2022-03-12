@@ -1,4 +1,4 @@
-import {$} from '../../core/dom'
+import {$} from '@core/dom'
 
 export class Excel {
   constructor(selector, options) {
@@ -6,8 +6,9 @@ export class Excel {
     this.components = options.components || []
   }
 
-  detRoot() {
-    const $root = $.create('div', 'exel')
+  getRoot() {
+    const $root = $.create('div', 'excel')
+
     this.components = this.components.map(Component => {
       const $el = $.create('div', Component.className)
       const component = new Component($el)
@@ -21,7 +22,8 @@ export class Excel {
   }
 
   render() {
-    this.$el.append(this.detRoot())
+    this.$el.append(this.getRoot())
+
     this.components.forEach(component => component.init())
   }
 }

@@ -1,4 +1,4 @@
-import {capitalise} from '@core/utils'
+import {capitalize} from '@core/utils'
 
 export class DomListener {
   constructor($root, listeners = []) {
@@ -9,7 +9,7 @@ export class DomListener {
     this.listeners = listeners
   }
 
-  initDomListeners() {
+  initDOMListeners() {
     this.listeners.forEach(listener => {
       const method = getMethodName(listener)
 
@@ -23,7 +23,7 @@ export class DomListener {
     })
   }
 
-  removeDomListeners() {
+  removeDOMListeners() {
     this.listeners.forEach(listener => {
       const method = getMethodName(listener)
       this.$root.off(listener, this[method])
@@ -32,5 +32,5 @@ export class DomListener {
 }
 
 function getMethodName(eventName) {
-  return 'on' + capitalise(eventName)
+  return 'on' + capitalize(eventName)
 }
