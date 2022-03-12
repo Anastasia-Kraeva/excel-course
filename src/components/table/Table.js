@@ -20,31 +20,45 @@ export class Table extends ExcelComponent {
       const $resizer = $(event.target)
       const $parent = $resizer.closest('[data-type="resizable"]')
       const coords = $parent.getCoords()
+      const type = $resizer.data.resize
+      const sideProp = type === 'col' ? 'bottom' : 'right'
+      let value = null
+
+      $resizer.css({
+        opacity: 1,
+        [sideProp]: '-2000px'
+      })
 
       document.onmousemove = e => {
-        if ($resizer.data.resize === 'col') {
+        if (type === 'col') {
           const delta = e.pageX - coords.right
-          const value = Math.floor(coords.width + delta)
-          const cells = this.$root.findAll(`[data-col="${$parent.data.col}"]`)
-
-          cells.forEach(element => element.style.width = value + 'px')
+          value = Math.floor(coords.width + delta)
+          $resizer.css({right: -delta + 'px'})
         } else {
-          // coords.bottom - нижняя граница строчки а не отсчитывание координат от нижней границы экрана
+          // coords.bottom - нижняя граница строчки а не отсчитывание координат от нижней границы экрана (указываемое число в sideProp это количество пикселей которое нужно отступить от границы родителя(нулевых значений), поэтому чтобы выйти за его пределы нужно назначить отрицательное значение)
           const delta = Math.floor(e.pageY - coords.bottom)
-          const value = Math.floor(coords.height + delta)
-          $parent.css({height: value + 'px'})
+          value = Math.floor(coords.height + delta)
+          $resizer.css({bottom: -delta + 'px'})
         }
       }
 
       document.onmouseup = () => {
         document.onmousemove = null
+        document.onmouseup = null
+
+        if (type === 'col') {
+          this.$root.findAll(`[data-col="${$parent.data.col}"]`)
+            .forEach(element => element.style.width = value + 'px')
+        } else {
+          $parent.css({height: value + 'px'})
+        }
+
+        $resizer.css({
+          opacity: 0,
+          bottom: 0,
+          right: 0,
+        })
       }
     }
-  }
-
-  onMousemove(e) {
-  }
-
-  onMouseup(e) {
   }
 }
