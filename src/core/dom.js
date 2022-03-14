@@ -61,14 +61,6 @@ class Dom {
       this.$el.style[key] = styles[key]
     })
   }
-
-  removeClasses(classes) {
-    this.$el.classList.remove(classes)
-  }
-
-  addClasses(classes) {
-    this.$el.classList.add(classes)
-  }
 }
 
 export function $(selector) {
