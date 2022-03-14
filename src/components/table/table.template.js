@@ -16,10 +16,19 @@ const toColumn = (col, i) => {
   `)
 }
 
-const toCell = (content, i) => {
-  return (`
-    <div class="cell" contenteditable data-col="${i + 1}">${content}</div>
+const toCell = (row) => {
+  return (content, col) => {
+    return (`
+    <div class="cell" 
+        contenteditable 
+        data-col="${col}"
+        data-type="cell"
+        data-id="${col}:${row}"
+    >
+      ${content}
+    </div>
   `)
+  }
 }
 
 const createRow = (i, cells) => {
@@ -48,13 +57,13 @@ export function createTable(rowsCount = 15) {
 
   rows.push(createRow(null, cols))
 
-  for (let i = 0; i < rowsCount; i++) {
+  for (let rowIndex = 0; rowIndex < rowsCount; rowIndex++) {
     const cells = new Array(colsCount)
         .fill('')
-        .map(toCell)
+        .map(toCell(rowIndex))
         .join('')
 
-    rows.push(createRow(i + 1, cells))
+    rows.push(createRow(rowIndex + 1, cells))
   }
 
   return rows.join('')
