@@ -33,21 +33,8 @@ export class Table extends ExcelComponent {
     if (shouldResize(event)) {
       resizeHandler(this.$root, event)
     } else if (isCell(event)) {
-      if (event.shiftKey) {
-        const $targetDown = $(event.target)
-        let $targetUp = null
-
-        document.onmouseup = (e) => {
-          document.onmousemove = null
-          // document.onmouseup = null
-
-          $targetUp = $(e.target)
-          this.selection.select($targetDown, $targetUp)
-        }
-      } else {
-        const $target = $(event.target)
-        this.selection.select([$target])
-      }
+      const $target = $(event.target)
+      this.selection.select($target)
     }
   }
 }
