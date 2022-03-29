@@ -8,14 +8,15 @@ export class ExcelComponent extends DomListener {
     this.prepare()
   }
 
-  prepare() {}
-
-  init() {
-    this.initDOMListeners()
+  prepare() {
   }
 
   toHTML() {
     return ''
+  }
+
+  init() {
+    this.initDOMListeners()
   }
 
   destroy() {
