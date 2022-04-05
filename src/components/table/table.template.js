@@ -9,7 +9,7 @@ const toChar = (_, i) => {
 
 const toColumn = (col, i) => {
   return (`
-    <div class="column" data-type="resizable" data-col="${i + 1}">
+    <div class="column" data-type="resizable" data-col="${i}">
       ${col}
       <div class="col-resize" data-resize="col"></div>
     </div>
