@@ -4,14 +4,9 @@ const CODES = {
 }
 
 const DEFAULT_WIDTH = 120
-const DEFAULT_HEIGHT = 20
 
 function getWidth(state = {}, index) {
   return (state[index] || DEFAULT_WIDTH) + 'px'
-}
-
-function getHeight(state = {}, index) {
-  return (state[index] || DEFAULT_HEIGHT) + 'px'
 }
 
 const toChar = (_, i) => {
@@ -46,16 +41,11 @@ const toCell = (state, row) => {
   }
 }
 
-const createRow = (i, cells, state = {}) => {
+const createRow = (i, cells) => {
   const resize = i ? '<div class="row-resize" data-resize="row"></div>' : ''
-  const height = getHeight(state.rowState, i)
 
   return (`
-    <div class="row" 
-          data-type="resizable"
-          data-row="${i}" 
-          style="height: ${height}">
-
+    <div class="row" data-type="resizable">
       <div class="row-info">
         ${i ? i : ''}
         ${resize}
@@ -90,7 +80,7 @@ export function createTable(state = {}, rowsCount = 15) {
       .map(toCell(state, rowIndex))
       .join('')
 
-    rows.push(createRow(rowIndex + 1, cells, state))
+    rows.push(createRow(rowIndex + 1, cells))
   }
 
   return rows.join('')
