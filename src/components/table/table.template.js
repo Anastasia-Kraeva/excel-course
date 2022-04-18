@@ -33,15 +33,19 @@ const toColumn = ({col, i, width}) => {
 
 const toCell = (state, row) => {
   return (_, col) => {
-    const width = getWidth(state, col)
+    const id = `${row}:${col}`
+    const width = getWidth(state.colState, col)
+    const data = state.dataState[id]
     return (`
     <div class="cell" 
-        contenteditable 
-        data-col="${col}"
-        data-type="cell"
-        data-id="${row}:${col}"
-        style="width: ${width}">
-</div>
+         contenteditable 
+         data-col="${col}"
+         data-type="cell"
+         data-id="${id}"
+         style="width: ${width}"
+    >
+      ${data || ''}
+    </div>
   `)
   }
 }
@@ -86,7 +90,7 @@ export function createTable(state = {}, rowsCount = 15) {
   for (let rowIndex = 0; rowIndex < rowsCount; rowIndex++) {
     const cells = new Array(colsCount)
         .fill('')
-        .map(toCell(state.colState, rowIndex))
+        .map(toCell(state, rowIndex))
         .join('')
 
     rows.push(createRow(rowIndex + 1, cells, state.rowState))
