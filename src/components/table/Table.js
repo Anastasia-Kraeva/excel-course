@@ -5,15 +5,16 @@ import {shouldResize, isCell, matrix, nextSelector} from './table.functions'
 import {resizeHandler} from './table.resize'
 import {TableSelection} from './TableSelection'
 import * as actions from '@/redux/actions'
+import {defaultStyles} from '@/constants';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table'
 
-  constructor($root, optons) {
+  constructor($root, options) {
     super($root, {
       name: 'Table',
       listeners: ['mousedown', 'keydown', 'input'],
-      ...optons
+      ...options
     })
   }
 
@@ -38,11 +39,22 @@ export class Table extends ExcelComponent {
     this.$on('formula:done', () => {
       this.selection.current.focus()
     })
+
+    this.$on('toolbar:applyStyle', value => {
+      this.selection.applyStyle(value)
+      this.$dispatch(actions.applyStyle({
+        value,
+        ids: this.selection.selectedIds
+      }))
+    })
   }
 
   selectCell($cell) {
     this.selection.select($cell)
     this.$emit('table:select', $cell)
+    const styles = $cell.getStyles(Object.keys(defaultStyles))
+    console.log('Styles to dispatch', styles)
+    this.$dispatch(actions.changeStyles(styles))
   }
 
   async resizeTable(event) {
@@ -84,8 +96,6 @@ export class Table extends ExcelComponent {
 
     if (keys.includes(key) && !event.shiftKey) {
       event.preventDefault()
-      console.log(this.selection.current)
-
       const id = this.selection.current.id(true)
       const $next = this.$root.find(nextSelector(key, id))
       this.selectCell($next)

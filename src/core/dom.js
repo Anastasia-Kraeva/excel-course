@@ -78,6 +78,13 @@ class Dom {
     })
   }
 
+  getStyles(styles = []) {
+    return styles.reduce((acc, style) => {
+      acc[style]=this.$el.style[style]
+      return acc
+    }, {})
+  }
+
   id(parse) {
     if (parse) {
       const parsed = this.id().split(':')
