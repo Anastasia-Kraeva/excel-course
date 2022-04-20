@@ -13,8 +13,17 @@ class Dom {
     return this.$el.outerHTML.trim()
   }
 
+  attr(name, value) {
+    if (value) {
+      this.$el.setAttribute(name, value)
+    } else {
+      this.$el.getAttribute(name)
+    }
+    return this
+  }
+
   text(text) {
-    if (typeof text === 'string') {
+    if (typeof text !== 'undefined') {
       this.$el.textContent = text
       return this
     } else {
@@ -76,6 +85,13 @@ class Dom {
     Object.keys(styles).forEach(key => {
       this.$el.style[key] = styles[key]
     })
+  }
+
+  getStyles(styles = []) {
+    return styles.reduce((acc, style) => {
+      acc[style]=this.$el.style[style]
+      return acc
+    }, {})
   }
 
   id(parse) {
