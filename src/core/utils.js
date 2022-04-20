@@ -42,7 +42,7 @@ export function toInlineStyles(styles={}) {
 
 export function debounсe(fn, wait) {
   let timeout = null
-  return function (...args) {
+  return function(...args) {
     const later = () => {
       clearTimeout(timeout)
       fn.apply(this, args)
